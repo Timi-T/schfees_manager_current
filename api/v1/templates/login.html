@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/styles/sign_in.css">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fab fa-airbnb"></i>
+        </div>
+        <div class="welcome_header">
+            <h1>MY-FEES MANAGER</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="left_container">
+            <div id="left_header">
+                <h2>Welcome to My-fees manager!</h2>
+            </div>
+            <div class="left_con_body">
+                <p>
+                    Manage all your schools' finances as a school
+                    Administrator from the comfort of your home/office.<br>
+                    &nbsp&nbsp&nbsp&nbsp Check student payment status.<br>
+                    &nbsp&nbsp&nbsp&nbsp Check completed fees percentage by student, class and School.<br>
+                    &nbsp&nbsp&nbsp&nbsp Get accurate analysis of cashflow from each school branch.<br>
+                </p> 
+            </div>
+            <p class="small_text">
+                Our goal is to ease finance management for you as an 
+                administrator.
+            </p>
+        </div>
+        <div class="right_container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="alert alert-danger alter-dissmissable fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alter-dissmissable fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="login_form">
+                <div class="toggle_sign_in">
+                    <button class="other" id="login_btn" type="button">Log-in</button>
+                    <a href="/sign_up">
+                        <button class="toggle_btn" id="signup_btn" type="button">Sign up</button>
+                    </a>
+                </div>
+                <form class="login_input_group" method="POST">
+                    <input type="email" name="email" id="email" class="input_fields" placeholder="Admin email" required>
+                    <input type="password" name="login_password" id="login_password" class="input_fields" placeholder="Enter password" required>
+                    <button type="submit" class="submit_btn" id="login_click" >Log in</button><br>
+                    <u id="forgot_pwd">forgot password?</u>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../static/scripts/sign_in.js"></script>
+</body>
+</html>

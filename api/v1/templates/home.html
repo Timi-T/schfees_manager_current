@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles/class_view.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    {% set sch = user.schools|first %}
+    {% if sch %}
+        {% set cls = sch.classes|first %}
+    {% endif %}
+    <p id={{ user.id }}></p>
+    <header>
+        <h1 class="cls_name">
+            {% if sch %}
+                {{ sch.name }}
+            {% else %}
+                {{ user.name }}
+            {% endif %}
+        </h1>
+    </header>
+    <div class="cls_addr">
+        {% if sch %}
+            <p>{{ sch.address }}</p>
+        {% else %}
+            <p>{{ user.email }}</p>
+        {% endif %}
+    </div>
+    <div class="container">
+        <div class="upper_page">
+            <div class="left_container">
+                <div class="register" id="register_school">
+                    <p>Register school</p>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="sch_selector">
+                    <div class="selector" id="sch_sel">
+                        {% if sch %}
+                            <div>
+                                <h4 class="selected_school" id={{ sch.id }}>{{ sch.name }}</h4>
+                            </div>
+                        {% else %}
+                            <div>
+                                <h4>...</h4>
+                            </div>
+                        {% endif %}
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    <div class="dropdown" id="sch_drop">
+                        {% if user.schools %}
+                            {% for school in user.schools %}
+                                <div>
+                                    <p id={{ school.id }}>{{ school.name }}</p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="middle_container">
+                <div class="search">
+                    <input type="text" placeholder="search student" class="search_box">
+                </div>
+                <div class="sch_reg_form hide_cards">
+                    <div class="pop_up hide_cards" id="sch_form_pop">
+                        <div class="message"></div>
+                        <div class="cancel_popup"><i class="fas fa-ban"></i></div>
+                    </div>
+                    <form class="signup_input_group" id="new_school" method="POST">
+                        <input type="text" class="input_fields" name="name" id="name" placeholder="School name" required minlength="5">
+                        <input type="text" class="input_fields" name="address" id="email" placeholder="School address" required minlength="15">
+                        <input type="text" class="input_fields" name="level" id="phone_no" placeholder="Level (primary/secondary)" required minlength="5">
+                        <input type="password" class="input_fields" name="password" id="password" placeholder="Admin password" required>
+                        <input type="text" class="input_fields" id="user_id" name="user_id" value={{ user.id }} readonly></imput>
+                        <button class="submit_btn" id="sch_reg_click" >Create school</button><br>
+                    </form>
+                </div>
+                <div class="class_reg_form hide_cards">
+                    <div class="pop_up hide_cards" id="cls_form_pop">
+                        <div class="message"></div>
+                        <div class="cancel_popup"><i class="fas fa-ban"></i></div>
+                    </div>
+                    <form class="signup_input_group" id="new_class" method="POST">
+                        <input type="text" class="input_fields" name="name" id="name" placeholder="Class name" required>
+                        <input type="text" class="input_fields" name="class_teacher" id="class_teacher" placeholder="Class Teacher" required>
+                        <input type="text" class="input_fields" name="fees_expected" id="fees_expected" placeholder="Total class fees" required>
+                        <input type="password" class="input_fields" name="password" id="password" placeholder="Admin password" required>
+                        <button class="submit_btn" id="sch_reg_click" >Add class</button><br>
+                    </form>
+                </div>
+                <div class="cls_info">
+                    <div class="cls_text">
+                        {% if sch %}
+                            <h5>School name: <span>{{ sch.name }}</span></h5>
+                            <h5>School address: <span>{{ sch.address }}<span></span></h5>
+                            <h5 class="current_sch" id={{ sch.id }}>School ID: <span>{{ sch.id }}</span></h5>
+                            <h5>Level: <span>{{ sch.level }}</span></h5>
+                            <h5>Fees paid: <span>NGN {{ sch.fees_paid }}</span></h5>
+                            <h5>No. of classes: <span>{{ sch.no_of_classes }}</span></h5>
+                            <h5>No. of students: <span>{{ sch.no_of_students}}</span></h5>
+                            <h1>0%</h1>
+                        {% else %}
+                            <h4>No school registered</h4>
+                        {% endif %}
+                    </div>
+                    {% if sch %}
+                        <div class="cls_percent_bar">
+                            <div class="cls_bar" id={{ sch.id }}></div>
+                        </div>
+                        <div class="options" i id={{ sch.name }}>
+                            <h5><i class="fas fa-bars"></i></h5>
+                        </div>
+                        <div class="del_edit hide_cards">
+                            <div class="del_sch">
+                                <p>Delete</p>
+                                {% set del_id = sch.id %}
+                                {% set del_id = del_id + "delete" %}
+                                <form class="signup_input_group hide_cards" id={{ del_id }}>
+                                    <input type="password" class="input_fields" name="password" id="password" placeholder="Admin Password" required>
+                                    <p class="warn">CAREFUL HERE, YOU CANNOT UNDO THIS!</p>
+                                    <button class="submit_btn" id="del_sch" >Delete school</button><br>
+                                </form>
+                            </div>
+                            <div class="edit_sch">
+                                <p>Edit</p>
+                                {% set name = sch.name.replace(' ', '_') %}
+                                {% set address = sch.address.replace(' ', '_') %}
+                                {% set edit_id = sch.id %}
+                                {% set edit_id = edit_id + "edit" %}
+                                <form class="signup_input_group hide_cards" id={{ edit_id }}>
+                                    <input type="text" class="input_fields" name="name" id="name" required minlength="5" value={{ name }}>
+                                    <input type="text" class="input_fields" name="address" id="address" required minlength="15" value={{ address }}>
+                                    <input type="text" class="input_fields" name="level" id="level" required value={{ sch.level }}>
+                                    <input type="password" class="input_fields" name="password" id="password" placeholder="Admin password" required>
+                                    <button class="submit_btn" id="edit_sch" >Edit school</button><br>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="right_container">
+                {% if sch %}
+                    <div class="register" id="register_class">
+                        <p>Add Classroom</p>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                {% endif %}
+                <div class="cls_selector">
+                    <div class="selector" id="cls_sel">
+                        {% if cls %}
+                            <div>
+                                <h4>Select class</h4>
+                            </div>
+                        {% else %}
+                            <div>
+                                <h4>...</h4>
+                            </div>
+                        {% endif %}
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    <div class="dropdown" id="cls_drop">
+                        {% if sch %}
+                            {% for clss in sch.classes %}
+                                <div>
+                                    <p class="cl_item" id={{ clss.id }}>{{ clss.name }}</p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lower_page">
+            <div class="lower_text">
+                <h5><u>Students</u></h5>
+            </div>
+            {% if sch %}
+                <div class="register hide_cards" id="register_student">
+                    <p>Register Student</p>
+                    <i class="fas fa-plus"></i>
+                </div>
+            {% endif %}
+            <div class="stu_reg_form hide_cards">
+                <div class="pop_up hide_cards" id="stu_form_pop">
+                    <div class="message"></div>
+                    <div class="cancel_popup"><i class="fas fa-ban"></i></div>
+                </div>
+                <div class="stu_selector">
+                    <div class="selector" id="stu_sel">
+                        <div>
+                            <h4>Select class</h4>
+                        </div>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    <div class="dropdown" id="stu_drop">
+                        {% if sch %}
+                            {% for clss in sch.classes %}
+                                <div>
+                                    <p class="cl_item" id={{ clss.id }}>{{ clss.name }}</p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <form class="signup_input_group" id="new_student" method="POST">
+                    <input type="text" class="input_fields" name="name" id="name" placeholder="Student name" required minlength="5">
+                    <input type="text" class="input_fields" name="age" id="age" placeholder="Age">
+                    <input type="text" class="input_fields" name="sex" id="sex" placeholder="sex">
+                    <input type="text" class="input_fields" name="parent_phone" id="parent_phone" placeholder="Parent phone_no" required minlength="11">
+                    <input type="password" class="input_fields" name="password" id="password" placeholder="Admin password" required>
+                    <button class="submit_btn" id="stu_reg_click" >Add student</button><br>
+                </form>
+            </div>
+            <div class="students hide_cards">
+                {% if sch%}
+                    {% for student in sch.students %}
+                        <div class="student_class" id={{ student.cls_id }}>
+                            <div class="hide_cards">
+                                <i class="fas fa-caret-down close_view"></i>
+                            </div>
+                            <h4 class="student" id={{ student.id }}>
+                                <p>{{ student.name }}</p>
+                                <div class="stu_info hide_cards">
+                                    <div class="stu_text">
+                                        <h5>Student name: <span>{{ student.name }}</span></h5>
+                                        <h5>Age: <span>{{ student.age }}<span></span></h5>
+                                        <h5>Sex: <span>{{ student.sex }}<span></span></h5>
+                                        <h5>Student ID: <span>{{ student.id }}</span></h5>
+                                        <h5>Class: <span>{{ student.cls }}</span></h5>
+                                        <h5>Fees paid: <span>NGN&nbsp; {{ student.fees_paid }}</span></h5>
+                                        <h1>0%</h1>
+                                    </div>
+                                    <div class="stu_percent_bar">
+                                        <div class="stu_bar" id={{ sch.id }}></div>
+                                    </div>
+                                    {% set stu_name = (student.name).replace(' ', '_') %}
+                                    <div class="options" id={{ stu_name }}>
+                                        <h5><i class="fas fa-bars"></i></h5>
+                                    </div>
+                                    <div class="del_edit hide_cards">
+                                        <div class="del_obj">
+                                            <p>Delete</p>
+                                            {% set del_id = student.id %}
+                                            {% set del_id = del_id + "delete" %}
+                                            <form class="signup_input_group hide_cards" id={{ del_id }}>
+                                                <input type="password" class="input_fields" name="password" id="password" placeholder="Admin Password" required>
+                                                <p class="warn">CAREFUL HERE, YOU CANNOT UNDO THIS!</p>
+                                                <button class="submit_btn" id="del_stu" >Delete student</button><br>
+                                            </form>
+                                        </div>
+                                        <div class="edit_obj">
+                                            <p>Edit</p>
+                                            {% set name = student.name.replace(' ', '_') %}
+                                            {% set edit_id = student.id %}
+                                            {% set edit_id = edit_id + "edit" %}
+                                            <form class="signup_input_group hide_cards" id={{ edit_id }}>
+                                                <input type="text" class="input_fields" name="name" id="name" required minlength="5" value={{ name }}>
+                                                <input type="text" class="input_fields" name="age" id="age" required value={{ student.age }}>
+                                                <input type="text" class="input_fields" name="sex" id="sex" required value={{ student.sex }}>
+                                                <input type="text" class="input_fields" name="parent_phone" id="parent_phone" required minlength="11" value={{ student.parent_phone }}>
+                                                <input type="password" class="input_fields" name="password" id="password" placeholder="Admin password" required>
+                                                <button class="submit_btn" id="edit_stu" >Edit student</button><br>
+                                            </form>
+                                        </div>
+                                        <div class="add_pay">
+                                            <p>Make payment</p>
+                                            {% set pay_id = student.id %}
+                                            {% set pay_id = pay_id + "pay" %}
+                                            <form class="signup_input_group hide_cards" id={{ pay_id }}>
+                                                <input type="text" class="input_fields" name="payer_name" id="payer_name" placeholder="Payer name" required minlength="5">
+                                                <input type="number" class="input_fields" name="amount" id="amount" placeholder="Amount" required>
+                                                <input type="text" class="input_fields" name="purpose" id="purpose" placeholder="Purpose" required>
+                                                <input type="password" class="input_fields" name="password" id="password" placeholder="Admin password" required>
+                                                <button class="submit_btn" id="add_pay" >Make payment</button><br>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="../static/scripts/base_view.js"></script>
+</body>
+</html>

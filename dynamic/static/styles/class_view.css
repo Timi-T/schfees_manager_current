@@ -1,0 +1,280 @@
+/* Style common to the whole page */
+body{
+    background-color: azure;
+    padding: 0;
+    margin: 0;
+}
+
+/* Styling for header */
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-bottom: 0.5px solid grey;
+}
+
+/* Styling for header name */
+.cls_name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: grey;
+}
+
+/* Search student input */
+.search {
+    margin-top: 30px;
+    margin-left: 75%;
+}
+
+/* Search box */
+.search_box {
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    border: 0.5px solid grey;
+}
+
+/* School address below header */
+.cls_addr {
+    text-align: center;
+}
+
+/* Page as a whole */
+.container {
+    display: flex;
+    flex-direction: column;
+}
+/* Page be low header */
+.upper_page {
+    display: flex;
+    background-color: azure;
+    width: 100%;
+    height: 100%;
+}
+
+/* Left side of container */
+.left_container {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    height: 100%;
+}
+
+/* School dropdown on left side */
+.sch_selector {
+    width: 65%;
+    margin-top: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Current school selected */
+.selector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid grey;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 80%;
+    height: 35px;
+    line-height: 5px;
+}
+
+.selector > h4 {
+    padding-left: 30px;
+}
+.selector > i {
+    padding-right: 10px;
+    padding-top: 15px;
+}
+
+/* Dropdown */
+.dropdown {
+    display: none;
+    border: 0.5px solid grey;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 80%;
+    text-align: center;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+.dropdown > p {
+    transition: all .2s ease-in-out;
+}
+
+/* When you hover over selected school */
+.sch_selector:hover > .dropdown {
+    display: block;
+}
+
+/* When you hover over selected class */
+.cls_selector:hover > .dropdown {
+    display: block;
+}
+
+/* When you hover over a school */
+.dropdown p:hover{
+    font-size: large;
+    color: grey;
+}
+
+/* Middle part of container */
+.middle_container {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* School information */
+.cls_info {
+    width: 50%;
+    height: 60%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0.5px solid grey;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+    color: grey;
+}
+.cls_info:hover {
+    transform: translateY(-10px);
+    border-left: 1px solid paleturquoise;
+    border-top: 1px solid paleturquoise;
+    color: black;
+}
+
+/* School information text */
+.cls_text {
+    margin-top: 10%;
+}
+.cls_text > h5 {
+    margin-left: -20px;
+}
+.cls_text > h1 {
+    text-align: center;
+}
+.cls_text > h5 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-items: start;
+}
+.cls_text > h5 > span {
+    margin-left: 50px;
+}
+
+/* Percentage bar */
+.cls_percent_bar {
+    background-color: rgb(219, 214, 214);
+    border: 0.5px solid grey;
+    border-radius: 20px;
+    width: 70%;
+    height: 30px;
+    margin-bottom: 10%;
+}
+
+/* Actual percentage */
+.cls_bar {
+    background-color: paleturquoise;
+    width: 75%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+/* Right side of container */
+.right_container {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    height: 100%;
+}
+
+/* Class dropdown on left side */
+.cls_selector {
+    width: 65%;
+    margin-top: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 
+
+/* Lower part of page */
+.lower_page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+}
+
+/* Text just below the card */
+.lower_text {
+    text-align: center;
+    border-bottom: 0.5px solid grey;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.lower_text > h2:hover {
+    cursor: pointer;
+    color: grey;
+}
+
+.students {
+    display: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 5%;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+}
+/* mini student cards in each class */
+.student {
+    min-width: 200px;
+    height: 100px;
+    border: 0.5px solid grey;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+    color: grey;
+}
+.student:hover {
+    transform: translateX(-5px);
+    height: 105px;
+    border: 1px solid paleturquoise;
+    color: black;
+    margin: 10px;
+}
+
+/* Hide cards */
+.hide_cards {
+    display: none;
+}
+
+/* Show cards */
+.show_cards {
+    display: flex;
+}
